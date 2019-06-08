@@ -1,0 +1,9 @@
+*.test
+log
+reporting
+*.o
+*.info
+*.gcda
+*.gcno
+a.out
+*.a
