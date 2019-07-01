@@ -7,18 +7,29 @@
 
 #include "vector.h"
 
+void unlink_vector(VECT vector, size_t hash, table_t *table)
+{
+    if (table->next)
+        table->next->prev = table->prev;
+    if (table->prev)
+        table->prev->next = table->next;
+    else
+        vector->table[hash] = NULL;
+}
+
 void remove_vector(VECT vector, void *id)
 {
     table_t *tmp;
+    size_t hash = hash_vector_id(id) % vector->table_size;
+    table_t *table = vector->table[hash];
 
-    for (tmp = vector->table[hash_vector_id(id) % vector->table_size]; tmp && \
-    !cmp_vector_id(tmp->id, id); tmp = tmp->next);
-    if (tmp && cmp_vector_id(tmp->id, id)) {
-        if (tmp->next)
-            tmp->next->prev = tmp->prev;
-        if (tmp->prev)
-            tmp->prev->next = tmp->next;
-        else
-            tmp = tmp->next;
+    while (table) {
+        if (table && table->id && cmp_vector_id(table->id, id)) {
+            unlink_vector(vector, hash, table);
+            tmp = table->next;
+            free(table);
+            table = tmp;
+        } else
+            table = table->next;
     }
 }

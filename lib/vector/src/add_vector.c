@@ -9,19 +9,12 @@
 
 void add_vector(VECT vector, void *id, data_vector_t data)
 {
-    size_t hash;
-    table_t *tmp;
+    table_t *table;
+    size_t hash = hash_vector_id(id) % vector->table_size;
 
-    hash = hash_vector_id(id) % vector->table_size;
-    if (vector->table[hash] != NULL) {
-        for (tmp = vector->table[hash]; tmp->next && \
-        !cmp_vector_id(tmp->id, id); tmp = tmp->next);
-        if (cmp_vector_id(tmp->id, id))
-            tmp->data = data;
-        else {
-            tmp->next = create_table(id, data);
-            tmp->next->prev = tmp;
-        }
-    } else
-        vector->table[hash] = create_table(id, data);
+    table = vector->table[hash];
+    vector->table[hash] = create_table(id, data);
+    vector->table[hash]->next = table;
+    if (table)
+        table->prev = vector->table[hash];
 }

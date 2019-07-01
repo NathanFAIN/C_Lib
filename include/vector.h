@@ -58,6 +58,7 @@ struct table_s
 struct vector_s
 {
     void    (*recycle)(bool);
+    void    (*clean)(void);
     void    (*add)(void *, data_vector_t data);
     void    (*remove)(void *);
     void    (*destroy)(void);
@@ -82,6 +83,11 @@ size_t hash_vector_id(void *id) __attribute__ ((const));
 void recycle_vector(VECT *vect);
 void set_recycle_vector(VECT vect, bool recycle);
 void remove_vector(VECT vect, void *id);
+void unlink_vector(VECT vector, size_t hash, table_t *table);
+void clean_vector(VECT vector);
+
+#define SET_VECT_CLEAN(name) __attribute__((unused)) \
+void VECT_CLEAN_##name(void){clean_vector(name);}
 
 #define SET_VECT_RECYCLE(name) __attribute__((unused)) \
 void VECT_RECYCLE_##name(bool recycle){set_recycle_vector(name, recycle);}
@@ -104,6 +110,9 @@ size_t VECT_SIZE_##name(void){return (size_vector(name));}
 #define SET_VECT_ADD(name) \
 void VECT_ADD_##name(void *id, data_vector_t data){add_vector(name, id, data);}
 
+#define _SET_VECT_CLEAN(name)   SET_VECT_CLEAN(name); \
+                                name->clean = &VECT_CLEAN_##name; \
+
 #define _SET_VECT_RECYCLE(name) SET_VECT_RECYCLE(name); \
                                 name->recycle = &VECT_RECYCLE_##name; \
 
@@ -125,7 +134,8 @@ void VECT_ADD_##name(void *id, data_vector_t data){add_vector(name, id, data);}
 #define _SET_VECT_GETALL(name)  SET_VECT_GETALL(name); \
                                 name->getall = &VECT_GETALL_##name; \
 
-#define _CREATE_VECTOR(name)    _SET_VECT_RECYCLE(name); \
+#define _CREATE_VECTOR(name)    _SET_VECT_CLEAN(name); \
+                                _SET_VECT_RECYCLE(name); \
                                 _SET_VECT_ADD(name); \
                                 _SET_VECT_SIZE(name); \
                                 _SET_VECT_REMOVE(name); \

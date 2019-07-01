@@ -11,10 +11,8 @@
 int main(void)
 {
     NEW_STACK stack = CREATE_STACK(stack, true);
+    CREATE_DEFAULT_VECTOR(vect);
 
-    for (int i = 0; i != 10; i++)
-        stack.push(i);
-    while (!stack.empty())
-        printf("%i\n", stack.pop().i);
+    vect->recycle(true);
     return (0);
 }
