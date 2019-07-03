@@ -5,21 +5,12 @@
 ## my make file
 ##
 
-NAME 	=	libvector.a
+NAME 	=	liblinked_list.a
 
-SRCS  =	./src/add_vector.c \
-		./src/cmp_vector_id.c \
-		./src/convert_vector.c \
-		./src/create_vector.c \
-		./src/create_table.c \
-		./src/destroy_vector.c \
-		./src/get_all_vector.c \
-		./src/get_vector_size.c \
-		./src/get_vector.c \
-		./src/hash_vector_id.c \
-		./src/recycle_vector.c \
-		./src/remove_vector.c \
-		./src/clean_vector.c \
+SRCS  =	./src/create_linked_list.c \
+		./src/add_linked_list.c \
+		./src/destroy_linked_list.c \
+		./src/size_linked_list.c \
 
 OBJS	=	$(SRCS:.c=.o)
 

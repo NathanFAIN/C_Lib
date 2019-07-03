@@ -5,21 +5,12 @@
 ## my make file
 ##
 
-NAME 	=	libvector.a
+NAME 	=	libgarbage_collector.a
 
-SRCS  =	./src/add_vector.c \
-		./src/cmp_vector_id.c \
-		./src/convert_vector.c \
-		./src/create_vector.c \
-		./src/create_table.c \
-		./src/destroy_vector.c \
-		./src/get_all_vector.c \
-		./src/get_vector_size.c \
-		./src/get_vector.c \
-		./src/hash_vector_id.c \
-		./src/recycle_vector.c \
-		./src/remove_vector.c \
-		./src/clean_vector.c \
+SRCS  =	./src/create_garbage_collector.c \
+		./src/add_garbage_collector.c \
+		./src/destroy_garbage_collector.c \
+		./src/clean_garbage_collector.c \
 
 OBJS	=	$(SRCS:.c=.o)
 

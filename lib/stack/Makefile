@@ -36,14 +36,17 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 		@ echo "\033[1;36m[ FILES COMPILED ] \033[0m \033[1;34m$(NBR_OF_FILES)\033[0m"
-		$(AR) $(NAME) $(OBJS)
+		@ $(AR) $(NAME) $(OBJS)
 		@ echo "\033[1;34mLibrary : \033[1;32m$(NAME)\033[1;34m Created Sucesfully.\033[0m"
 
 clean:
-		$(RM) $(OBJS)
+		@ echo "\033[3;31mRemoving: \033[0m"
+		@ echo "\033[3;31m$(OBJS)\033[0m" | tr ' ' '\n'
+		@ $(RM) $(OBJS)
 
 fclean:	clean
-		$(RM) $(NAME)
+		@ echo "\033[3;31m./$(NAME)\033[0m"
+		@ $(RM) $(NAME)
 
 re: fclean all
 
