@@ -36,20 +36,23 @@ $(NAME): mylib $(OBJS)
 		@ echo "\033[1;33m--------------- Binary : \033[1;31m$(NAME)\033[1;33m Created Sucesfully. --------------- \033[0m"
 
 mylib:
-	@ make -C $(LIB_FOLDER)$(LINKED_LIST_LIB)
-	@ make -C $(LIB_FOLDER)$(GARBAGE_COLLECTOR_LIB)
-	@ make -C $(LIB_FOLDER)$(STACK_LIB)
-	@ make -C $(LIB_FOLDER)$(VECTOR_LIB)
+		@ make -s -C $(LIB_FOLDER)$(LINKED_LIST_LIB)
+		@ make -s -C $(LIB_FOLDER)$(GARBAGE_COLLECTOR_LIB)
+		@ make -s -C $(LIB_FOLDER)$(STACK_LIB)
+		@ make -s -C $(LIB_FOLDER)$(VECTOR_LIB)
 
 clean:
+		@ echo "\033[3;31mRemoving: \033[0m"
+		@ echo "\033[3;31m$(OBJS)\033[0m" | tr ' ' '\n'
 		@ $(RM) $(OBJS)
 
 fclean:	clean
-		@ make fclean -C $(LIB_FOLDER)$(LINKED_LIST_LIB)
-		@ make fclean -C $(LIB_FOLDER)$(GARBAGE_COLLECTOR_LIB)
-		@ make fclean -C $(LIB_FOLDER)$(STACK_LIB)
-		@ make fclean -C $(LIB_FOLDER)$(VECTOR_LIB)
+		@ echo "\033[3;31m./$(NAME)\033[0m"
 		@ $(RM) $(NAME)
+		@ make fclean -s -C $(LIB_FOLDER)$(LINKED_LIST_LIB)
+		@ make fclean -s -C $(LIB_FOLDER)$(GARBAGE_COLLECTOR_LIB)
+		@ make fclean -s -C $(LIB_FOLDER)$(STACK_LIB)
+		@ make fclean -s -C $(LIB_FOLDER)$(VECTOR_LIB)
 
 re: fclean all
 

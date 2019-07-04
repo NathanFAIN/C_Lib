@@ -16,4 +16,5 @@ void destroy_linked_list(LINKED_LIST linked_list)
         linked_list->linked_list = linked_list->linked_list->next;
         free(tmp_linked_list);
     }
+    free(linked_list);
 }
