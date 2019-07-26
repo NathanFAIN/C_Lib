@@ -9,11 +9,5 @@
 
 size_t size_linked_list(LINKED_LIST linked_list)
 {
-    size_t linked_list_size = 0;
-
-    while (linked_list->linked_list) {
-        linked_list->linked_list = linked_list->linked_list->next;
-        linked_list_size++;
-    }
-    return (linked_list_size);
+    return (linked_list->link_nbr);
 }

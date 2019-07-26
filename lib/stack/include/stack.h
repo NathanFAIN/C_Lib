@@ -22,7 +22,7 @@
 typedef union data_stack_s data_stack_t;
 typedef struct stack_s stack_t;
 
-#define STACK_DATA_SIZE 1024
+#define STACK_DATA_SIZE 16
 #define STACK_PTR struct stack_s *
 #define STACK_PTR struct stack_s *
 #define NEW_STACK struct stack_s __attribute__((__cleanup__(recycle_stack)))

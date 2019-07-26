@@ -9,9 +9,8 @@
 
 void recycle_vector(VECT *vector)
 {
-
-    if ((*vector)->is_recycle == true)
-        destroy_vector(*vector);
+    if (*vector != NULL && (*vector)->is_recycle == true)
+        destroy_vector(vector);
 }
 
 void set_recycle_vector(VECT vector, bool recycle)

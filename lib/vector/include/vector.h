@@ -24,7 +24,7 @@ typedef union data_vector_s data_vector_t;
 typedef struct table_s table_t;
 typedef struct vector_s vector_t;
 
-#define VECTOR_DATA_SIZE 1024
+#define VECTOR_DATA_SIZE 16
 #define VECTOR_DEFAULT_SIZE 1024
 #define VECT struct vector_s *
 
@@ -75,7 +75,7 @@ bool cmp_vector_id(void *id1, void *id2) __attribute__ ((const));
 data_vector_t unknown_strcut_to_data_vector(size_t size, void *ptr);
 table_t *create_table(void *id, data_vector_t data);
 VECT create_vector(size_t vector_size);
-void destroy_vector(VECT vector);
+void destroy_vector(VECT *vector);
 size_t size_vector(VECT vect);
 data_vector_t *getall_vector(VECT vect);
 data_vector_t get_vector(VECT vect, void *id);
@@ -96,7 +96,7 @@ void VECT_RECYCLE_##name(bool recycle){set_recycle_vector(name, recycle);}
 data_vector_t *VECT_GETALL_##name(void){return (getall_vector(name));}
 
 #define SET_VECT_DESTROY(name) __attribute__((unused)) \
-void VECT_DESTROY_##name(void){destroy_vector(name);}
+void VECT_DESTROY_##name(void){destroy_vector(&name);}
 
 #define SET_VECT_REMOVE(name) __attribute__((unused)) \
 void VECT_REMOVE_##name(void *id){remove_vector(name, id);}
@@ -152,11 +152,11 @@ void VECT_ADD_##name(void *id, data_vector_t data){add_vector(name, id, data);}
                                     recycle_vector))) = create_vector(size); \
                                     _CREATE_VECTOR(name); \
 
-#define add_(id, data) add(((data_vector_t)id).p, \
+#define add_(id, data) add(((data_vector_t)(id)).p, \
 unknown_strcut_to_data_vector(sizeof(data), &data))
-#define add(id, data) add(((data_vector_t)id).p, (data_vector_t)data)
-#define remove(id) remove(((data_vector_t)id).p)
-#define get(id) get(((data_vector_t)id).p)
+#define add(id, data) add(((data_vector_t)(id)).p, (data_vector_t)data)
+#define remove(id) remove(((data_vector_t)(id)).p)
+#define get(id) get(((data_vector_t)(id)).p)
 #define get_data_to_type(x, type) (*(type *)x.bytes)
 
 #endif

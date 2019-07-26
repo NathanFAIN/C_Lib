@@ -10,30 +10,48 @@
 #include "garbage_collector.h"
 #include "linked_list.h"
 
+/*
+    Todo list:
+    -   Cat front linked list   *
+    -   Cat back linked list    *
+    -   Clear linked list       *
+    -   Create linked list      *
+    -   Destroy linked list     *
+    -   Foreach linked list     *
+    -   Get array linked list
+    -   Get at linked list      *
+    -   Get if array linked list
+    -   Insert at linked list   *
+    -   Pop back linked list    *
+    -   Pop front linked list   *
+    -   Push back linked list   *
+    -   Push front linked list  *
+    -   Remove at linked list   *
+    -   Remove if linked list   *
+    -   Reverse linked list     *
+    -   Size linked list        *
+    -   Sort linked list        *
+    -   Dup linked list         *
+    -   Top back linked list    *
+    -   Top front linked list   *
+*/
+
 int main(void)
 {
-    /*  Linked list :    */
-    LINKED_LIST list = CREATE_LINKED_LIST(list);
-    list->add_list(42);
-    printf("%i\n", list->linked_list->data.i);
-    list->destroy();
+    // LINKED_LIST list = CREATE_LINKED_LIST(list);
+    //
+    // for (unsigned int i = 0; i != 100000; i++)
+    //     list->push_front(i);
+    // list->destroy();
 
-    /*  Garbage collector :    */
-    CREATE_GARBAGE_COLLECTOR(garbage);
-    garbage->add_ptr(malloc(1), free);
-    garbage->destroy();
+    // NEW_STACK stack = CREATE_STACK(stack, false);
+    // for (unsigned int i = 0; i != 100000; i++)
+    //     stack.push(i);
+    // stack.destroy();
 
-    /*  Stack :    */
-    NEW_STACK stack = CREATE_STACK(stack, true);
-    for (int i = 0; i != 10; i++)
-        stack.push(i);
-    while (!stack.empty())
-        printf("%i\n", stack.pop().i);
-
-    /*  Vector :    */
-    CREATE_DEFAULT_VECTOR(vect);
-    vect->recycle(true);
-    vect->add(1, 21);
-    printf("%i\n", vect->get(1).i);
+    // CREATE_VECTOR(vect, 100000);
+    // for (unsigned int i = 0; i != 100000; i++)
+    //     vect->add(i, i);
+    // vect->destroy();
     return (0);
 }

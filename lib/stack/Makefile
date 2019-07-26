@@ -37,7 +37,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 		@ echo "\033[1;36m[ FILES COMPILED ] \033[0m \033[1;34m$(NBR_OF_FILES)\033[0m"
 		@ $(AR) $(NAME) $(OBJS)
-		@ echo "\033[1;34mLibrary : \033[1;32m$(NAME)\033[1;34m Created Sucesfully.\033[0m"
+		@ echo "\033[1;34mLibrary : \033[1;32m$(NAME)\033[1;34m created sucesfully.\033[0m"
 
 clean:
 		@ echo "\033[3;31mRemoving: \033[0m"

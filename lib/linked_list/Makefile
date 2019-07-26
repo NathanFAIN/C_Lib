@@ -7,10 +7,28 @@
 
 NAME 	=	liblinked_list.a
 
-SRCS  =	./src/create_linked_list.c \
-		./src/add_linked_list.c \
+SRCS  =	./src/cat_back_linked_list.c \
+		./src/cat_front_linked_list.c \
+		./src/clear_linked_list.c \
+		./src/create_link.c \
+		./src/create_linked_list.c \
 		./src/destroy_linked_list.c \
+		./src/dup_linked_list.c \
+		./src/foreach_linked_list.c \
+		./src/get_at_linked_list.c \
+		./src/insert_at_linked_list.c \
+		./src/pop_back_linked_list.c \
+		./src/pop_front_linked_list.c \
+		./src/push_back_linked_list.c \
+		./src/push_front_linked_list.c \
+		./src/remove_at_linked_list.c \
+		./src/remove_if_linked_list.c \
+		./src/remove_link.c \
+		./src/reverse_linked_list.c \
 		./src/size_linked_list.c \
+		./src/sort_linked_list.c \
+		./src/top_back_linked_list.c \
+		./src/top_front_linked_list.c \
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -28,7 +46,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 		@ echo "\033[1;36m[ FILES COMPILED ] \033[0m \033[1;34m$(NBR_OF_FILES)\033[0m"
 		@ $(AR) $(NAME) $(OBJS)
-		@ echo "\033[1;34mLibrary : \033[1;32m$(NAME)\033[1;34m Created Sucesfully.\033[0m"
+		@ echo "\033[1;34mLibrary : \033[1;32m$(NAME)\033[1;34m created sucesfully.\033[0m"
 
 clean:
 		@ echo "\033[3;31mRemoving: \033[0m"
