@@ -5,7 +5,7 @@
 ## my make file
 ##
 
-NAME 	=	my_sort
+NAME 	=	binary
 
 SRCS  =	./src/main.c \
 
@@ -21,12 +21,12 @@ CFLAGS = -I ./include/
 CFLAGS += -W -Wall -Wextra -Werror
 
 LIB_FOLDER = ./lib/
-VECTOR_LIB = vector
+MAP_LIB = map
 STACK_LIB = stack
 GARBAGE_COLLECTOR_LIB = garbage_collector
 LINKED_LIST_LIB = linked_list
 
-MYLIB = -L $(LIB_FOLDER)$(VECTOR_LIB) -l$(VECTOR_LIB) \
+MYLIB = -L $(LIB_FOLDER)$(MAP_LIB) -l$(MAP_LIB) \
 		-L $(LIB_FOLDER)$(STACK_LIB) -l$(STACK_LIB) \
 		-L $(LIB_FOLDER)$(GARBAGE_COLLECTOR_LIB) -l$(GARBAGE_COLLECTOR_LIB) \
 		-L $(LIB_FOLDER)$(LINKED_LIST_LIB) -l$(LINKED_LIST_LIB) \
@@ -44,7 +44,7 @@ mylib:
 		@ make -s -C $(LIB_FOLDER)$(LINKED_LIST_LIB)
 		@ make -s -C $(LIB_FOLDER)$(GARBAGE_COLLECTOR_LIB)
 		@ make -s -C $(LIB_FOLDER)$(STACK_LIB)
-		@ make -s -C $(LIB_FOLDER)$(VECTOR_LIB)
+		@ make -s -C $(LIB_FOLDER)$(MAP_LIB)
 
 clean:
 		@ echo "\033[3;31mRemoving: \033[0m"
@@ -57,7 +57,7 @@ fclean:	clean
 		@ make fclean -s -C $(LIB_FOLDER)$(LINKED_LIST_LIB)
 		@ make fclean -s -C $(LIB_FOLDER)$(GARBAGE_COLLECTOR_LIB)
 		@ make fclean -s -C $(LIB_FOLDER)$(STACK_LIB)
-		@ make fclean -s -C $(LIB_FOLDER)$(VECTOR_LIB)
+		@ make fclean -s -C $(LIB_FOLDER)$(MAP_LIB)
 
 re: fclean all
 

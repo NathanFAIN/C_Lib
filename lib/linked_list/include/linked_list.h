@@ -61,7 +61,6 @@ struct linked_list_s
     void        (*foreach)(void (*)(data_list_t *));
     data_list_t *(*get_array)(void);
     data_list_t (*get_at)(size_t);
-    data_list_t *(*get_if_array)(bool (*)(data_list_t));
     void        (*insert_at)(data_list_t, size_t);
     data_list_t (*pop_back)(void);
     data_list_t (*pop_front)(void);
@@ -88,6 +87,7 @@ LINKED_LIST create_linked_list(void);
 void destroy_linked_list(LINKED_LIST linked_list);
 void dup_linked_list(LINKED_LIST linked_list, LINKED_LIST new_linked_list);
 void foreach_linked_list(LINKED_LIST linked_list, void (*foreach_func)(data_list_t *));
+data_list_t *get_array_linked_list(LINKED_LIST linked_list);
 data_list_t get_at_linked_list(LINKED_LIST linked_list, size_t index);
 void insert_at_linked_list(LINKED_LIST linked_list, data_list_t data, size_t index);
 data_list_t pop_back_linked_list(LINKED_LIST linked_list);
@@ -121,6 +121,9 @@ data_list_t top_front_linked_list(LINKED_LIST linked_list);
 
 #define CONFIG_FOREACH_LINKED_LIST(name) __attribute__((unused)) void FOREACH_LINKED_LIST_ \
 ##name(void (*foreach_func)(data_list_t *)){foreach_linked_list(name, foreach_func);}
+
+#define CONFIG_GET_ARRAY_LINKED_LIST(name) __attribute__((unused)) data_list_t *GET_ARRAY_LINKED_LIST_ \
+##name(void){return (get_array_linked_list(name));}
 
 #define CONFIG_GET_AT_LINKED_LIST(name) __attribute__((unused)) data_list_t GET_AT_LINKED_LIST_ \
 ##name(size_t index){return (get_at_linked_list(name, index));}
@@ -179,6 +182,9 @@ data_list_t top_front_linked_list(LINKED_LIST linked_list);
 #define SET_FOREACH_LINKED_LIST(name)      CONFIG_FOREACH_LINKED_LIST(name); \
                                             name->foreach = &FOREACH_LINKED_LIST_##name; \
 
+#define SET_GET_ARRAY_LINKED_LIST(name)    CONFIG_GET_ARRAY_LINKED_LIST(name); \
+                                            name->get_array = &GET_ARRAY_LINKED_LIST_##name; \
+
 #define SET_GET_AT_LINKED_LIST(name)       CONFIG_GET_AT_LINKED_LIST(name); \
                                             name->get_at = &GET_AT_LINKED_LIST_##name; \
 
@@ -225,6 +231,7 @@ data_list_t top_front_linked_list(LINKED_LIST linked_list);
                                     SET_DESTROY_LINKED_LIST(name); \
                                     SET_DUP_LINKED_LIST(name); \
                                     SET_FOREACH_LINKED_LIST(name); \
+                                    SET_GET_ARRAY_LINKED_LIST(name); \
                                     SET_GET_AT_LINKED_LIST(name); \
                                     SET_INSERT_AT_LINKED_LIST(name); \
                                     SET_POP_BACK_LINKED_LIST(name); \

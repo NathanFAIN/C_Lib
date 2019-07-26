@@ -5,9 +5,9 @@
 ** create table
 */
 
-#include "vector.h"
+#include "map.h"
 
-table_t *create_table(void *id, data_vector_t data)
+table_t *create_table(void *id, data_map_t data)
 {
     table_t *new = malloc(sizeof(table_t));
 

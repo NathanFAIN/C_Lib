@@ -1,13 +1,13 @@
 /*
 ** EPITECH PROJECT, 2018
-** cmp_vector_id.c
+** cmp_map_id.c
 ** File description:
-** cmp vector id
+** cmp map id
 */
 
-#include "vector.h"
+#include "map.h"
 
-__attribute__ ((const)) inline bool cmp_vector_id(void *id1, void *id2)
+__attribute__ ((const)) inline bool cmp_map_id(void *id1, void *id2)
 {
     bool boolean = true;
 

@@ -6,35 +6,9 @@
 */
 
 #include "stack.h"
-#include "vector.h"
+#include "map.h"
 #include "garbage_collector.h"
 #include "linked_list.h"
-
-/*
-    Todo list:
-    -   Cat front linked list   *
-    -   Cat back linked list    *
-    -   Clear linked list       *
-    -   Create linked list      *
-    -   Destroy linked list     *
-    -   Foreach linked list     *
-    -   Get array linked list
-    -   Get at linked list      *
-    -   Get if array linked list
-    -   Insert at linked list   *
-    -   Pop back linked list    *
-    -   Pop front linked list   *
-    -   Push back linked list   *
-    -   Push front linked list  *
-    -   Remove at linked list   *
-    -   Remove if linked list   *
-    -   Reverse linked list     *
-    -   Size linked list        *
-    -   Sort linked list        *
-    -   Dup linked list         *
-    -   Top back linked list    *
-    -   Top front linked list   *
-*/
 
 int main(void)
 {
@@ -49,9 +23,9 @@ int main(void)
     //     stack.push(i);
     // stack.destroy();
 
-    // CREATE_VECTOR(vect, 100000);
-    // for (unsigned int i = 0; i != 100000; i++)
-    //     vect->add(i, i);
-    // vect->destroy();
+    CREATE_MAP(map, 100000);
+    for (unsigned int i = 0; i != 100000; i++)
+        map->add(i, i);
+    map->destroy();
     return (0);
 }

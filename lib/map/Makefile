@@ -5,21 +5,21 @@
 ## my make file
 ##
 
-NAME 	=	libvector.a
+NAME 	=	libmap.a
 
-SRCS  =	./src/add_vector.c \
-		./src/cmp_vector_id.c \
-		./src/convert_vector.c \
-		./src/create_vector.c \
+SRCS  =	./src/add_map.c \
+		./src/cmp_map_id.c \
+		./src/convert_map.c \
+		./src/create_map.c \
 		./src/create_table.c \
-		./src/destroy_vector.c \
-		./src/get_all_vector.c \
-		./src/get_vector_size.c \
-		./src/get_vector.c \
-		./src/hash_vector_id.c \
-		./src/recycle_vector.c \
-		./src/remove_vector.c \
-		./src/clean_vector.c \
+		./src/destroy_map.c \
+		./src/get_all_map.c \
+		./src/get_map_size.c \
+		./src/get_map.c \
+		./src/hash_map_id.c \
+		./src/recycle_map.c \
+		./src/remove_map.c \
+		./src/clean_map.c \
 
 OBJS	=	$(SRCS:.c=.o)
 

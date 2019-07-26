@@ -1,13 +1,13 @@
 /*
 ** EPITECH PROJECT, 2018
-** hash_vector_id.c
+** hash_map_id.c
 ** File description:
-** hash vector id
+** hash map id
 */
 
-#include "vector.h"
+#include "map.h"
 
-__attribute__ ((const)) size_t hash_vector_id(void *id)
+__attribute__ ((const)) size_t hash_map_id(void *id)
 {
     size_t hash = 0;
 
