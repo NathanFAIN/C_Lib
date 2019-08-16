@@ -9,5 +9,8 @@
 
 void destroy_stack(STACK_PTR stack)
 {
-    free(stack->stack);
+    if (stack->stack != NULL) {
+        free(stack->stack);
+        stack->stack = NULL;
+    }
 }

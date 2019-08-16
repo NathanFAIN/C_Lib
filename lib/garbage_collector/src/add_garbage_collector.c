@@ -2,12 +2,13 @@
 ** EPITECH PROJECT, 2018
 ** add_garbage_collector.c
 ** File description:
-** add ptr to the garbage collector
+** add ptr to the garbage collector.
 */
 
 #include "garbage_collector.h"
 
-void add_garbage_collector(GARBAGE_COLLECTOR garbage_collector, void *ptr, void (*destroy_ptr)(void *))
+void add_garbage_collector(GARBAGE_COLLECTOR garbage_collector, void *ptr, \
+void (*destroy_ptr)(void *))
 {
     ptr_garbage_collector_t *garbage = malloc(sizeof(ptr_garbage_collector_t));
 

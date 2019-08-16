@@ -25,8 +25,8 @@ typedef struct table_s table_t;
 typedef struct map_s map_t;
 
 #define MAP_DATA_SIZE 16
-#define MAP_DEFAULT_SIZE 1024
 #define MAP struct map_s *
+#define NEW_MAP struct map_s * __attribute__((__cleanup__(recycle_map)))
 
 union data_map_s
 {
@@ -74,7 +74,7 @@ void add_map(MAP vect, void *id, data_map_t data);
 bool cmp_map_id(void *id1, void *id2) __attribute__ ((const));
 data_map_t unknown_strcut_to_data_map(size_t size, void *ptr);
 table_t *create_table(void *id, data_map_t data);
-MAP create_map(size_t map_size);
+MAP create_map(size_t map_size, bool recycle);
 void destroy_map(MAP *map);
 size_t size_map(MAP vect);
 data_map_t *getall_map(MAP vect);
@@ -134,23 +134,17 @@ void MAP_ADD_##name(void *id, data_map_t data){add_map(name, id, data);}
 #define _SET_MAP_GETALL(name)  SET_MAP_GETALL(name); \
                                 name->getall = &MAP_GETALL_##name; \
 
-#define _CREATE_MAP(name)    _SET_MAP_CLEAN(name); \
-                                _SET_MAP_RECYCLE(name); \
-                                _SET_MAP_ADD(name); \
-                                _SET_MAP_SIZE(name); \
-                                _SET_MAP_REMOVE(name); \
-                                _SET_MAP_GET(name); \
-                                _SET_MAP_DESTROY(name); \
-                                _SET_MAP_GETALL(name); \
+#define _CREATE_MAP(name)   _SET_MAP_CLEAN(name); \
+                            _SET_MAP_RECYCLE(name); \
+                            _SET_MAP_ADD(name); \
+                            _SET_MAP_SIZE(name); \
+                            _SET_MAP_REMOVE(name); \
+                            _SET_MAP_GET(name); \
+                            _SET_MAP_DESTROY(name); \
+                            _SET_MAP_GETALL(name); \
 
-#define CREATE_DEFAULT_MAP(name) MAP name __attribute__((__cleanup__( \
-                                    recycle_map))) = \
-                                    create_map(MAP_DEFAULT_SIZE); \
-                                    _CREATE_MAP(name); \
-
-#define CREATE_MAP(name, size)   MAP name __attribute__((__cleanup__( \
-                                    recycle_map))) = create_map(size); \
-                                    _CREATE_MAP(name); \
+#define CREATE_MAP(name, size, recycle) create_map(size, recycle); \
+                                        _CREATE_MAP(name); \
 
 #define add_(id, data) add(((data_map_t)(id)).p, \
 unknown_strcut_to_data_map(sizeof(data), &data))

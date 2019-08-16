@@ -23,8 +23,9 @@ typedef union data_list_s data_list_t;
 typedef struct link_s link_t;
 typedef struct linked_list_s linked_list_t;
 
-#define LINKED_LIST struct linked_list_s *
 #define LINKED_LIST_DATA_SIZE 16
+#define LINKED_LIST struct linked_list_s *
+#define NEW_LINKED_LIST struct linked_list_s * __attribute__((__cleanup__(recycle_linked_list)))
 
 union data_list_s
 {
@@ -61,11 +62,13 @@ struct linked_list_s
     void        (*foreach)(void (*)(data_list_t *));
     data_list_t *(*get_array)(void);
     data_list_t (*get_at)(size_t);
+    data_list_t *(*get_if_array)(bool (*)(data_list_t));
     void        (*insert_at)(data_list_t, size_t);
     data_list_t (*pop_back)(void);
     data_list_t (*pop_front)(void);
     void        (*push_back)(data_list_t);
     void        (*push_front)(data_list_t);
+    void        (*recycle)(bool);
     void        (*remove_at)(size_t);
     void        (*remove_if)(bool (*)(data_list_t));
     void        (*reverse)(void);
@@ -77,27 +80,29 @@ struct linked_list_s
     link_t      *first_link;
     link_t      *last_link;
     size_t      link_nbr;
+    bool        is_recycle;
 };
 
 void cat_back_linked_list(LINKED_LIST linked_list, LINKED_LIST linked_list_bis);
 void cat_front_linked_list(LINKED_LIST linked_list, LINKED_LIST linked_list_bis);
 void clear_linked_list(LINKED_LIST linked_list);
 link_t *create_link(data_list_t data);
-LINKED_LIST create_linked_list(void);
-void destroy_linked_list(LINKED_LIST linked_list);
+LINKED_LIST create_linked_list(bool recycle);
+void destroy_linked_list(LINKED_LIST *linked_list);
 void dup_linked_list(LINKED_LIST linked_list, LINKED_LIST new_linked_list);
 void foreach_linked_list(LINKED_LIST linked_list, void (*foreach_func)(data_list_t *));
-data_list_t *get_array_linked_list(LINKED_LIST linked_list);
 data_list_t get_at_linked_list(LINKED_LIST linked_list, size_t index);
 void insert_at_linked_list(LINKED_LIST linked_list, data_list_t data, size_t index);
 data_list_t pop_back_linked_list(LINKED_LIST linked_list);
 data_list_t pop_front_linked_list(LINKED_LIST linked_list);
 void push_back_linked_list(LINKED_LIST linked_list, data_list_t data);
 void push_front_linked_list(LINKED_LIST linked_list, data_list_t data);
+void recycle_linked_list(LINKED_LIST *linked_list);
 void remove_at_linked_list(LINKED_LIST linked_list, size_t index);
 void remove_if_linked_list(LINKED_LIST linked_list, bool (*remove_if_func)(data_list_t));
 void remove_linked_list(LINKED_LIST linked_list, link_t *remove_link);
 void reverse_linked_list(LINKED_LIST linked_list);
+void set_recycle_linked_list(LINKED_LIST linked_list, bool recycle);
 size_t size_linked_list(LINKED_LIST linked_list);
 void sort_linked_list(LINKED_LIST linked_list, int (*cmp_func)(data_list_t, data_list_t));
 data_list_t top_back_linked_list(LINKED_LIST linked_list);
@@ -114,16 +119,13 @@ data_list_t top_front_linked_list(LINKED_LIST linked_list);
 ##name(void){clear_linked_list(name);}
 
 #define CONFIG_DESTROY_LINKED_LIST(name) __attribute__((unused)) void DESTROY_LINKED_LIST_ \
-##name(void){destroy_linked_list(name);}
+##name(void){destroy_linked_list(&name);}
 
 #define CONFIG_DUP_LINKED_LIST(name) __attribute__((unused)) void DUP_LINKED_LIST_ \
 ##name(LINKED_LIST new_linked_list){dup_linked_list(name, new_linked_list);}
 
 #define CONFIG_FOREACH_LINKED_LIST(name) __attribute__((unused)) void FOREACH_LINKED_LIST_ \
 ##name(void (*foreach_func)(data_list_t *)){foreach_linked_list(name, foreach_func);}
-
-#define CONFIG_GET_ARRAY_LINKED_LIST(name) __attribute__((unused)) data_list_t *GET_ARRAY_LINKED_LIST_ \
-##name(void){return (get_array_linked_list(name));}
 
 #define CONFIG_GET_AT_LINKED_LIST(name) __attribute__((unused)) data_list_t GET_AT_LINKED_LIST_ \
 ##name(size_t index){return (get_at_linked_list(name, index));}
@@ -142,6 +144,9 @@ data_list_t top_front_linked_list(LINKED_LIST linked_list);
 
 #define CONFIG_PUSH_FRONT_LINKED_LIST(name) __attribute__((unused)) void PUSH_FRONT_LINKED_LIST_ \
 ##name(data_list_t data){push_front_linked_list(name, data);}
+
+#define CONFIG_RECYCLE_LINKED_LIST(name) __attribute__((unused)) void RECYCLE_LINKED_LIST_ \
+##name(bool recycle){set_recycle_linked_list(name, recycle);}
 
 #define CONFIG_REMOVE_AT_LINKED_LIST(name) __attribute__((unused)) void REMOVE_AT_LINKED_LIST_ \
 ##name(size_t index){remove_at_linked_list(name, index);}
@@ -182,9 +187,6 @@ data_list_t top_front_linked_list(LINKED_LIST linked_list);
 #define SET_FOREACH_LINKED_LIST(name)      CONFIG_FOREACH_LINKED_LIST(name); \
                                             name->foreach = &FOREACH_LINKED_LIST_##name; \
 
-#define SET_GET_ARRAY_LINKED_LIST(name)    CONFIG_GET_ARRAY_LINKED_LIST(name); \
-                                            name->get_array = &GET_ARRAY_LINKED_LIST_##name; \
-
 #define SET_GET_AT_LINKED_LIST(name)       CONFIG_GET_AT_LINKED_LIST(name); \
                                             name->get_at = &GET_AT_LINKED_LIST_##name; \
 
@@ -202,6 +204,9 @@ data_list_t top_front_linked_list(LINKED_LIST linked_list);
 
 #define SET_PUSH_FRONT_LINKED_LIST(name)   CONFIG_PUSH_FRONT_LINKED_LIST(name); \
                                             name->push_front = &PUSH_FRONT_LINKED_LIST_##name; \
+
+#define SET_RECYCLE_LINKED_LIST(name)   CONFIG_RECYCLE_LINKED_LIST(name); \
+                                            name->recycle = &RECYCLE_LINKED_LIST_##name; \
 
 #define SET_REMOVE_AT_LINKED_LIST(name)    CONFIG_REMOVE_AT_LINKED_LIST(name); \
                                             name->remove_at = &REMOVE_AT_LINKED_LIST_##name; \
@@ -224,27 +229,27 @@ data_list_t top_front_linked_list(LINKED_LIST linked_list);
 #define SET_TOP_FRONT_LINKED_LIST(name)    CONFIG_TOP_FRONT_LINKED_LIST(name); \
                                             name->top_front = &TOP_FRONT_LINKED_LIST_##name; \
 
-#define CREATE_LINKED_LIST(name)    create_linked_list(); \
-                                    SET_CAT_BACK_LINKED_LIST(name); \
-                                    SET_CAT_FRONT_LINKED_LIST(name); \
-                                    SET_CLEAR_LINKED_LIST(name); \
-                                    SET_DESTROY_LINKED_LIST(name); \
-                                    SET_DUP_LINKED_LIST(name); \
-                                    SET_FOREACH_LINKED_LIST(name); \
-                                    SET_GET_ARRAY_LINKED_LIST(name); \
-                                    SET_GET_AT_LINKED_LIST(name); \
-                                    SET_INSERT_AT_LINKED_LIST(name); \
-                                    SET_POP_BACK_LINKED_LIST(name); \
-                                    SET_POP_FRONT_LINKED_LIST(name); \
-                                    SET_PUSH_BACK_LINKED_LIST(name); \
-                                    SET_PUSH_FRONT_LINKED_LIST(name); \
-                                    SET_REMOVE_AT_LINKED_LIST(name); \
-                                    SET_REMOVE_IF_LINKED_LIST(name); \
-                                    SET_REVERSE_LINKED_LIST(name); \
-                                    SET_SIZE_LINKED_LIST(name); \
-                                    SET_SORT_LINKED_LIST(name); \
-                                    SET_TOP_BACK_LINKED_LIST(name); \
-                                    SET_TOP_FRONT_LINKED_LIST(name); \
+#define CREATE_LINKED_LIST(name, recycle)   create_linked_list(recycle); \
+                                            SET_CAT_BACK_LINKED_LIST(name); \
+                                            SET_CAT_FRONT_LINKED_LIST(name); \
+                                            SET_CLEAR_LINKED_LIST(name); \
+                                            SET_DESTROY_LINKED_LIST(name); \
+                                            SET_DUP_LINKED_LIST(name); \
+                                            SET_FOREACH_LINKED_LIST(name); \
+                                            SET_GET_AT_LINKED_LIST(name); \
+                                            SET_INSERT_AT_LINKED_LIST(name); \
+                                            SET_POP_BACK_LINKED_LIST(name); \
+                                            SET_POP_FRONT_LINKED_LIST(name); \
+                                            SET_PUSH_BACK_LINKED_LIST(name); \
+                                            SET_PUSH_FRONT_LINKED_LIST(name); \
+                                            SET_RECYCLE_LINKED_LIST(name); \
+                                            SET_REMOVE_AT_LINKED_LIST(name); \
+                                            SET_REMOVE_IF_LINKED_LIST(name); \
+                                            SET_REVERSE_LINKED_LIST(name); \
+                                            SET_SIZE_LINKED_LIST(name); \
+                                            SET_SORT_LINKED_LIST(name); \
+                                            SET_TOP_BACK_LINKED_LIST(name); \
+                                            SET_TOP_FRONT_LINKED_LIST(name); \
 
 #define push_back(data) push_back((data_list_t)data)
 #define push_front(data) push_front((data_list_t)data)

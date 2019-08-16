@@ -11,6 +11,7 @@ SRCS  =	./src/create_garbage_collector.c \
 		./src/add_garbage_collector.c \
 		./src/destroy_garbage_collector.c \
 		./src/clean_garbage_collector.c \
+		./src/recycle_garbage_collector.c \
 
 OBJS	=	$(SRCS:.c=.o)
 

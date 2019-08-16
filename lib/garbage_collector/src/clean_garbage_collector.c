@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2018
 ** clean_garbage_collector.c
 ** File description:
-** destroy all ptr in the garbage collector
+** destroy all ptr in the garbage collector.
 */
 
 #include "garbage_collector.h"

@@ -21,6 +21,7 @@ SRCS  =	./src/cat_back_linked_list.c \
 		./src/pop_front_linked_list.c \
 		./src/push_back_linked_list.c \
 		./src/push_front_linked_list.c \
+		./src/recycle_linked_list.c \
 		./src/remove_at_linked_list.c \
 		./src/remove_if_linked_list.c \
 		./src/remove_link.c \

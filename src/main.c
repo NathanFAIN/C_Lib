@@ -12,20 +12,11 @@
 
 int main(void)
 {
-    // LINKED_LIST list = CREATE_LINKED_LIST(list);
-    //
-    // for (unsigned int i = 0; i != 100000; i++)
-    //     list->push_front(i);
-    // list->destroy();
+    NEW_STACK stack = CREATE_STACK(stack, true);
+    NEW_LINKED_LIST list = CREATE_LINKED_LIST(list, true);
+    NEW_MAP map = CREATE_MAP(map, 100, true);
+    NEW_GARBAGE_COLLECTOR garbage_collector = \
+    CREATE_GARBAGE_COLLECTOR(garbage_collector, true);
 
-    // NEW_STACK stack = CREATE_STACK(stack, false);
-    // for (unsigned int i = 0; i != 100000; i++)
-    //     stack.push(i);
-    // stack.destroy();
-
-    CREATE_MAP(map, 100000);
-    for (unsigned int i = 0; i != 100000; i++)
-        map->add(i, i);
-    map->destroy();
     return (0);
 }

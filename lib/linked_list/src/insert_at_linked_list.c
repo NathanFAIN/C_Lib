@@ -7,7 +7,8 @@
 
 #include "linked_list.h"
 
-void insert_at_linked_list(LINKED_LIST linked_list, data_list_t data, size_t index)
+void insert_at_linked_list(LINKED_LIST linked_list, data_list_t data, \
+size_t index)
 {
     link_t *new_link;
     link_t *tmp_link = linked_list->first_link;

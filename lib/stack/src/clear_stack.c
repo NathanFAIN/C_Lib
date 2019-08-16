@@ -9,7 +9,9 @@
 
 void clear_stack(STACK_PTR stack)
 {
-    free(stack->stack);
-    stack->stack = NULL;
+    if (stack->stack != NULL) {
+        free(stack->stack);
+        stack->stack = NULL;
+    }
     stack->stack_size = 0;
 }
