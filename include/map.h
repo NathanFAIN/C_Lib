@@ -18,7 +18,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <limits.h>
-
+#include <stdint.h>
 
 typedef union data_map_s data_map_t;
 typedef struct table_s table_t;
@@ -30,21 +30,32 @@ typedef struct map_s map_t;
 
 union data_map_s
 {
-    char            c;
-    unsigned char   uc;
-    short           sh;
-    unsigned short  ush;
-    int             i;
-    unsigned int    ui;
-    long            l;
-    unsigned long   ul;
-    long long       ll;
-    void            *p;
-    char            *s;
-    long double     ld;
-    double          d;
-    float           f;
-    unsigned char   bytes[MAP_DATA_SIZE];
+    int8_t              i8;
+    uint8_t             ui8;
+    int16_t             i16;
+    uint16_t            ui16;
+    int32_t             i32;
+    uint32_t            ui32;
+    int64_t             i64;
+    uint64_t            ui64;
+    intptr_t            ip;
+    uintptr_t           uip;
+    char                c;
+    unsigned char       uc;
+    short               sh;
+    unsigned short      ush;
+    int                 i;
+    unsigned int        ui;
+    long                l;
+    unsigned long       ul;
+    long long           ll;
+    unsigned long long  ull;
+    void                *p;
+    char                *s;
+    long double         ld;
+    double              d;
+    float               f;
+    unsigned char       bytes[MAP_DATA_SIZE];
 };
 
 struct table_s
@@ -110,41 +121,41 @@ size_t MAP_SIZE_##name(void){return (size_map(name));}
 #define SET_MAP_ADD(name) \
 void MAP_ADD_##name(void *id, data_map_t data){add_map(name, id, data);}
 
-#define _SET_MAP_CLEAN(name)   SET_MAP_CLEAN(name); \
+#define _SET_MAP_CLEAN(name)    SET_MAP_CLEAN(name); \
                                 name->clean = &MAP_CLEAN_##name; \
 
-#define _SET_MAP_RECYCLE(name) SET_MAP_RECYCLE(name); \
+#define _SET_MAP_RECYCLE(name)  SET_MAP_RECYCLE(name); \
                                 name->recycle = &MAP_RECYCLE_##name; \
 
-#define _SET_MAP_ADD(name)     SET_MAP_ADD(name); \
+#define _SET_MAP_ADD(name)      SET_MAP_ADD(name); \
                                 name->add = &MAP_ADD_##name; \
 
-#define _SET_MAP_SIZE(name)    SET_MAP_SIZE(name); \
+#define _SET_MAP_SIZE(name)     SET_MAP_SIZE(name); \
                                 name->size = &MAP_SIZE_##name; \
 
-#define _SET_MAP_REMOVE(name)  SET_MAP_REMOVE(name); \
+#define _SET_MAP_REMOVE(name)   SET_MAP_REMOVE(name); \
                                 name->remove = &MAP_REMOVE_##name; \
 
-#define _SET_MAP_GET(name)     SET_MAP_GET(name); \
+#define _SET_MAP_GET(name)      SET_MAP_GET(name); \
                                 name->get = &MAP_GET_##name; \
 
-#define _SET_MAP_DESTROY(name) SET_MAP_DESTROY(name); \
+#define _SET_MAP_DESTROY(name)  SET_MAP_DESTROY(name); \
                                 name->destroy = &MAP_DESTROY_##name; \
 
-#define _SET_MAP_GETALL(name)  SET_MAP_GETALL(name); \
+#define _SET_MAP_GETALL(name)   SET_MAP_GETALL(name); \
                                 name->getall = &MAP_GETALL_##name; \
 
-#define _CREATE_MAP(name)   _SET_MAP_CLEAN(name); \
-                            _SET_MAP_RECYCLE(name); \
-                            _SET_MAP_ADD(name); \
-                            _SET_MAP_SIZE(name); \
-                            _SET_MAP_REMOVE(name); \
-                            _SET_MAP_GET(name); \
-                            _SET_MAP_DESTROY(name); \
-                            _SET_MAP_GETALL(name); \
+#define UPDATE_MAP(name)        _SET_MAP_CLEAN(name); \
+                                _SET_MAP_RECYCLE(name); \
+                                _SET_MAP_ADD(name); \
+                                _SET_MAP_SIZE(name); \
+                                _SET_MAP_REMOVE(name); \
+                                _SET_MAP_GET(name); \
+                                _SET_MAP_DESTROY(name); \
+                                _SET_MAP_GETALL(name); \
 
 #define CREATE_MAP(name, size, recycle) create_map(size, recycle); \
-                                        _CREATE_MAP(name); \
+                                        UPDATE_MAP(name); \
 
 #define add_(id, data) add(((data_map_t)(id)).p, \
 unknown_strcut_to_data_map(sizeof(data), &data))

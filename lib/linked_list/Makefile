@@ -14,6 +14,7 @@ SRCS  =	./src/cat_back_linked_list.c \
 		./src/create_linked_list.c \
 		./src/destroy_linked_list.c \
 		./src/dup_linked_list.c \
+		./src/empty_linked_list.c \
 		./src/foreach_linked_list.c \
 		./src/get_at_linked_list.c \
 		./src/insert_at_linked_list.c \

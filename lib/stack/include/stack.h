@@ -18,6 +18,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <limits.h>
+#include <stdint.h>
 
 typedef union data_stack_s data_stack_t;
 typedef struct stack_s stack_t;
@@ -32,21 +33,32 @@ typedef struct stack_s stack_t;
 
 union data_stack_s
 {
-    char            c;
-    unsigned char   uc;
-    short           sh;
-    unsigned short  ush;
-    int             i;
-    unsigned int    ui;
-    long            l;
-    unsigned long   ul;
-    long long       ll;
-    void            *p;
-    char            *s;
-    long double     ld;
-    double          d;
-    float           f;
-    unsigned char   bytes[STACK_DATA_SIZE];
+    int8_t              i8;
+    uint8_t             ui8;
+    int16_t             i16;
+    uint16_t            ui16;
+    int32_t             i32;
+    uint32_t            ui32;
+    int64_t             i64;
+    uint64_t            ui64;
+    intptr_t            ip;
+    uintptr_t           uip;
+    char                c;
+    unsigned char       uc;
+    short               sh;
+    unsigned short      ush;
+    int                 i;
+    unsigned int        ui;
+    long                l;
+    unsigned long       ul;
+    long long           ll;
+    unsigned long long  ull;
+    void                *p;
+    char                *s;
+    long double         ld;
+    double              d;
+    float               f;
+    unsigned char       bytes[STACK_DATA_SIZE];
 };
 
 struct stack_s
@@ -115,53 +127,53 @@ data_stack_t unknown_strcut_to_data_stack(size_t size, void *ptr);
 #define SET_STACK_PUSH(name) __attribute__((unused)) void STACK_PUSH_ \
 ##name(data_stack_t data){push_stack(&name, data);}
 
-#define _SET_STACK_RECYCLE(name) SET_STACK_RECYCLE(name); \
-                                name.recycle = &STACK_RECYCLE_##name; \
+#define _SET_STACK_RECYCLE(name)    SET_STACK_RECYCLE(name); \
+                                    name.recycle = &STACK_RECYCLE_##name; \
 
-#define _SET_STACK_DESTROY(name) SET_STACK_DESTROY(name); \
-                                name.destroy = &STACK_DESTROY_##name; \
+#define _SET_STACK_DESTROY(name)    SET_STACK_DESTROY(name); \
+                                    name.destroy = &STACK_DESTROY_##name; \
 
-#define _SET_STACK_SIZE(name)    SET_STACK_SIZE(name); \
-                                name.size = &STACK_SIZE_##name; \
+#define _SET_STACK_SIZE(name)       SET_STACK_SIZE(name); \
+                                    name.size = &STACK_SIZE_##name; \
 
-#define _SET_STACK_EMPTY(name) SET_STACK_EMPTY(name); \
-                                name.empty = &STACK_EMPTY_##name; \
+#define _SET_STACK_EMPTY(name)      SET_STACK_EMPTY(name); \
+                                    name.empty = &STACK_EMPTY_##name; \
 
-#define _SET_STACK_SWAP(name) SET_STACK_SWAP(name); \
-                                name.swap = &STACK_SWAP_##name; \
+#define _SET_STACK_SWAP(name)       SET_STACK_SWAP(name); \
+                                    name.swap = &STACK_SWAP_##name; \
 
-#define _SET_STACK_ROTATE(name) SET_STACK_ROTATE(name); \
-                                name.rotate = &STACK_ROTATE_##name; \
+#define _SET_STACK_ROTATE(name)     SET_STACK_ROTATE(name); \
+                                    name.rotate = &STACK_ROTATE_##name; \
 
-#define _SET_STACK_DUP(name) SET_STACK_DUP(name); \
-                                name.dup = &STACK_DUP_##name; \
+#define _SET_STACK_DUP(name)        SET_STACK_DUP(name); \
+                                    name.dup = &STACK_DUP_##name; \
 
-#define _SET_STACK_CLEAR(name) SET_STACK_CLEAR(name); \
-                                name.clear = &STACK_CLEAR_##name; \
+#define _SET_STACK_CLEAR(name)      SET_STACK_CLEAR(name); \
+                                    name.clear = &STACK_CLEAR_##name; \
 
-#define _SET_STACK_TOP(name) SET_STACK_TOP(name); \
-                                name.top = &STACK_TOP_##name; \
+#define _SET_STACK_TOP(name)        SET_STACK_TOP(name); \
+                                    name.top = &STACK_TOP_##name; \
 
-#define _SET_STACK_POP(name) SET_STACK_POP(name); \
-                                name.pop = &STACK_POP_##name; \
+#define _SET_STACK_POP(name)        SET_STACK_POP(name); \
+                                    name.pop = &STACK_POP_##name; \
 
-#define _SET_STACK_PUSH(name) SET_STACK_PUSH(name); \
-                                name.push = &STACK_PUSH_##name; \
+#define _SET_STACK_PUSH(name)       SET_STACK_PUSH(name); \
+                                    name.push = &STACK_PUSH_##name; \
 
-#define _CREATE_STACK(name)     _SET_STACK_RECYCLE(name); \
-                                _SET_STACK_DESTROY(name); \
-                                _SET_STACK_SIZE(name); \
-                                _SET_STACK_EMPTY(name); \
-                                _SET_STACK_SWAP(name); \
-                                _SET_STACK_ROTATE(name); \
-                                _SET_STACK_DUP(name); \
-                                _SET_STACK_CLEAR(name); \
-                                _SET_STACK_TOP(name); \
-                                _SET_STACK_POP(name); \
-                                _SET_STACK_PUSH(name); \
+#define UPDATE_STACK(name)          _SET_STACK_RECYCLE(name); \
+                                    _SET_STACK_DESTROY(name); \
+                                    _SET_STACK_SIZE(name); \
+                                    _SET_STACK_EMPTY(name); \
+                                    _SET_STACK_SWAP(name); \
+                                    _SET_STACK_ROTATE(name); \
+                                    _SET_STACK_DUP(name); \
+                                    _SET_STACK_CLEAR(name); \
+                                    _SET_STACK_TOP(name); \
+                                    _SET_STACK_POP(name); \
+                                    _SET_STACK_PUSH(name); \
 
 #define CREATE_STACK(name, recycle) create_stack(name, recycle); \
-                                    _CREATE_STACK(name); \
+                                    UPDATE_STACK(name); \
 
 #define push(data) push((data_stack_t)data)
 #define push_(data) push(unknown_strcut_to_data_stack(sizeof(data), &data))

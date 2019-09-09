@@ -73,10 +73,12 @@ void set_recycle_garbage_collector(GARBAGE_COLLECTOR garbage_collector, bool rec
 #define _SET_RECYCLE_GARBAGE_COLLECTOR(name)    SET_RECYCLE_GARBAGE_COLLECTOR(name); \
                                                 name->recycle = &RECYCLE_GARBAGE_COLLECTOR_##name; \
 
-#define CREATE_GARBAGE_COLLECTOR(name, recycle) create_garbage_collector(recycle); \
-                                                _SET_CLEAN_GARBAGE_COLLECTOR(name); \
+#define UPDATE_GARBAGE_COLLECTOR(name)          _SET_CLEAN_GARBAGE_COLLECTOR(name); \
                                                 _SET_DESTROY_GARBAGE_COLLECTOR(name); \
                                                 _SET_GARBAGE_COLLECTOR(name); \
                                                 _SET_RECYCLE_GARBAGE_COLLECTOR(name); \
+
+#define CREATE_GARBAGE_COLLECTOR(name, recycle) create_garbage_collector(recycle); \
+                                                UPDATE_GARBAGE_COLLECTOR(name); \
 
 #endif
