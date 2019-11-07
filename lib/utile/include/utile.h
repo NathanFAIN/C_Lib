@@ -48,7 +48,7 @@
 
 #define LAMBDA(code) ({code func;})
 
-#define DEBUG() print_debug(__LINE__, __FILE__ " : ", __FUNCTION__,   \
+#define DEBUG() print_debug(__LINE__, __FILE__ " : ", __FUNCTION__, \
 (const int []){DEBUG_MODE, sizeof(__FILE__), sizeof(__FUNCTION__)})
 
 #define BINARY(var) print_binary((long long)var, sizeof(var))
