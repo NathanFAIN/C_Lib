@@ -7,26 +7,40 @@
 
 #include "string.h"
 
-void cat_back_string(STRING string, STRING string_bis)
+void _cat_back_string(STRING string, char *string_bis, size_t size)
 {
     size_t index = 0;
     char *new_string = NULL;
 
-    if (string->string_size + string_bis->string_size != 0) {
+    if (string->string_size + size != 0) {
         new_string = malloc(sizeof(char) * \
-        (string->string_size + string_bis->string_size + 1));
-        new_string[string->string_size + string_bis->string_size] = '\0';
+        (string->string_size + size + 1));
+        new_string[string->string_size + size] = '\0';
         for (; index != string->string_size; index++) {
             new_string[index] = string->string[index];
         }
-        for (; index != string_bis->string_size + \
-        string_bis->string_size; index++) {
-            new_string[index] = string_bis->string[index - string->string_size];
+        for (; index != size + size; index++) {
+            new_string[index] = string_bis[index - string->string_size];
         }
     }
     if (string->string_size != 0) {
-        free (string->string);
+        free(string->string);
     }
     string->string_size = index;
     string->string = new_string;
+}
+
+void cat_back_string(STRING string, void *ptr, unsigned int type)
+{
+    size_t size = 0;
+    char *string_bis = NULL;
+
+    if (type == S_STRING_TYPE) {
+        size = ((STRING)ptr)->string_size;
+        string_bis = ((STRING)ptr)->string;
+    } else if (type == S_CHAR_TYPE) {
+        string_bis = ptr;
+        for (; string_bis[size]; size++);
+    }
+    _cat_back_string(string, string_bis, size);
 }

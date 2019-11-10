@@ -67,8 +67,8 @@ struct link_s
 
 struct linked_list_s
 {
-    void        (*cat_back)(LINKED_LIST);
-    void        (*cat_front)(LINKED_LIST);
+    void        (*cat_list_back)(LINKED_LIST);
+    void        (*cat_list_front)(LINKED_LIST);
     void        (*clear)(void);
     void        (*destroy)(void);
     void        (*dup)(LINKED_LIST);
@@ -77,7 +77,7 @@ struct linked_list_s
     data_list_t *(*get_array)(void);
     data_list_t (*get_at)(size_t);
     data_list_t *(*get_if_array)(bool (*)(data_list_t));
-    void        (*insert_at)(data_list_t, size_t);
+    void        (*insert_data_at)(data_list_t, size_t);
     data_list_t (*pop_back)(void);
     data_list_t (*pop_front)(void);
     void        (*push_back)(data_list_t);

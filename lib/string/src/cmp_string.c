@@ -7,17 +7,32 @@
 
 #include "string.h"
 
-bool cmp_string(STRING string1, STRING string2)
+bool _cmp_string(STRING string1, char *string2, size_t size)
 {
     size_t index = 0;
 
-    if (string1->string_size != 0 && string2->string_size != 0 && \
-    string1->string_size == string2->string_size) {
+    if (string1->string_size != 0 && size != 0 && \
+    string1->string_size == size) {
         for (; string1->string[index] != '\0' && \
-        string1->string[index] == string2->string[index]; index++);
-        return (string1->string[index] == string2->string[index] ? \
+        string1->string[index] == string2[index]; index++);
+        return (string1->string[index] == string2[index] ? \
         true : false);
     } else {
         return (false);
     }
+}
+
+bool cmp_string(STRING string, void *ptr, unsigned int type)
+{
+    size_t size = 0;
+    char *string_bis = NULL;
+
+    if (type == S_STRING_TYPE) {
+        size = ((STRING)ptr)->string_size;
+        string_bis = ((STRING)ptr)->string;
+    } else if (type == S_CHAR_TYPE) {
+        string_bis = ptr;
+        for (; string_bis[size]; size++);
+    }
+    return (_cmp_string(string, string_bis, size));
 }

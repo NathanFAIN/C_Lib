@@ -17,6 +17,7 @@ SRCS  =	./src/cat_back_string.c \
 		./src/destroy_string.c \
 		./src/dup_string.c \
 		./src/empty_string.c \
+		./src/foreach_string.c \
 		./src/get_at_string.c \
 		./src/get_back_string.c \
 		./src/get_front_string.c \
@@ -24,6 +25,7 @@ SRCS  =	./src/cat_back_string.c \
 		./src/len_string.c \
 		./src/parce_string.c \
 		./src/recycle_string.c \
+		./src/remove_at_string.c \
 		./src/replace_at_string.c \
 		./src/reverse_string.c \
 		./src/rotate_string.c \

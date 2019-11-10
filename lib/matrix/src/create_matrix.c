@@ -7,15 +7,18 @@
 
 #include "matrix.h"
 
-MATRIX create_matrix(size_t size, void *ptr)
+MATRIX create_matrix(size_t size, long double *value)
 {
     MATRIX matrix;
 
-    (void)ptr;
     matrix.size = size;
-    matrix.tab = malloc(sizeof(long double *) * size);
-    for (size_t index_x = 0; index_x != size; index_x++) {
-        matrix.tab[index_x] = calloc(0, sizeof(long double) * size);
+    matrix.value = malloc(sizeof(long double *) * size);
+    for (size_t index_y = 0; index_y != matrix.size; index_y++) {
+        matrix.value[index_y] = calloc(0, sizeof(long double) * size);
+        for (size_t index_x = 0; index_x != matrix.size; index_x++) {
+            matrix.value[index_y][index_x] = \
+            value[index_y * matrix.size + index_x];
+        }
     }
     return (matrix);
 }

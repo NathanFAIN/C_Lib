@@ -5,12 +5,16 @@
 ** main
 */
 
-#include "stack.h"
-#include "map.h"
 #include "garbage_collector.h"
 #include "linked_list.h"
-#include "utile.h"
+#include "map.h"
+#include "matrix.h"
+#include "stack.h"
 #include "string.h"
+#include "utile.h"
+
+_Atomic(int) acnt;
+int cnt;
 
 int main(UNUSED int ac, UNUSED char **av, UNUSED char **env)
 {

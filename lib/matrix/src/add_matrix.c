@@ -13,7 +13,7 @@ MATRIX add_matrix(MATRIX matrix1, MATRIX matrix2)
 
     for (size_t index_y = 0; index_y != ans.size; index_y++)
         for (size_t index_x = 0; index_x != ans.size; index_x++)
-            ans.tab[index_y][index_x] = matrix1.tab[index_y][index_x] \
-            + matrix2.tab[index_y][index_x];
+            ans.value[index_y][index_x] = matrix1.value[index_y][index_x] \
+            + matrix2.value[index_y][index_x];
     return (ans);
 }

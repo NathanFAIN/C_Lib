@@ -28,8 +28,14 @@ typedef struct stack_s stack_t;
 #define STACK_PTR struct stack_s *
 #define NEW_STACK struct stack_s __attribute__((__cleanup__(recycle_stack)))
 #define STACK struct stack_s
-#define ROTATE_RIGHT 0
-#define ROTATE_LEFT 1
+
+#ifndef ROTATE_RIGHT
+#define ROTATE_RIGHT false
+#endif
+
+#ifndef ROTATE_LEFT
+#define ROTATE_LEFT true
+#endif
 
 union data_stack_s
 {
