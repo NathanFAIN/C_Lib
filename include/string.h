@@ -22,7 +22,7 @@
 
 typedef struct string_s string_t;
 
-enum {S_STRING_TYPE, S_CHAR_TYPE};
+enum {STRING_S_TYPE, STRING_C_TYPE, STRING_P_TYPE};
 
 #define STRING struct string_s *
 #define NEW_STRING struct string_s * __attribute__((__cleanup__(recycle_string)))
@@ -65,7 +65,7 @@ struct string_s
     void      (*replace_at)(size_t, char);
     void      (*reverse)(void);
     void      (*rotate)(unsigned char);
-    void      (*set)(char *);
+    void      (*set)(void *, unsigned int);                             //_Generic
     void      (*swap_at)(size_t);
     void      (*swap)(void);
     char      *(*to_char)(void);
@@ -98,21 +98,23 @@ void replace_at_string(STRING string, size_t index, char c);
 void rotate_string(STRING string, bool rotate);
 void set_recycle_string(STRING string, bool recycle);
 void reverse_string(STRING string);
-void set_string(STRING string, char *new_string);
+void set_string(STRING string, void *ptr, unsigned int type);
 void swap_at_string(STRING string, size_t index);
 void swap_string(STRING string);
 char *to_char_string(STRING string);
 
+#define set(X) set((void *)X, \
+                    _Generic((X), STRING : STRING_S_TYPE, int : STRING_C_TYPE, char : STRING_C_TYPE, default : STRING_P_TYPE))
 #define cat_back(X) cat_back((void *)X, \
-                    _Generic((X), STRING : STRING_TYPE, default : CHAR_TYPE))
+                    _Generic((X), STRING : STRING_S_TYPE, int : STRING_C_TYPE, char : STRING_C_TYPE, default : STRING_P_TYPE))
 #define cat_front(X) cat_front((void *)X, \
-                    _Generic((X), STRING : STRING_TYPE, default : CHAR_TYPE))
+                    _Generic((X), STRING : STRING_S_TYPE, int : STRING_C_TYPE, char : STRING_C_TYPE, default : STRING_P_TYPE))
 #define cmp(X) cmp((void *)X, \
-                    _Generic((X), STRING : STRING_TYPE, default : CHAR_TYPE))
+                    _Generic((X), STRING : STRING_S_TYPE, int : STRING_C_TYPE, char : STRING_C_TYPE, default : STRING_P_TYPE))
 #define insert_at(SIZE, X) insert_at(SIZE, (void *)X, \
-                    _Generic((X), STRING : STRING_TYPE, default : CHAR_TYPE))
+                    _Generic((X), STRING : STRING_S_TYPE, int : STRING_C_TYPE, char : STRING_C_TYPE, default : STRING_P_TYPE))
 #define parce(X) parce((void *)X, \
-                    _Generic((X), STRING : STRING_TYPE, default : CHAR_TYPE))
+                    _Generic((X), STRING : STRING_S_TYPE, int : STRING_C_TYPE, char : STRING_C_TYPE, default : STRING_P_TYPE))
 
 #define CONFIG_CAT_BACK_STRING(name) void CAT_BACK_STRING_ \
 ##name(void *ptr, unsigned int type){cat_back_string(name, ptr, type);}

@@ -13,9 +13,6 @@
 #include "string.h"
 #include "utile.h"
 
-_Atomic(int) acnt;
-int cnt;
-
 int main(UNUSED int ac, UNUSED char **av, UNUSED char **env)
 {
     return (0);
