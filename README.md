@@ -2,11 +2,6 @@
 [distribution]: https://img.shields.io/badge/Distribution-Ubuntu%2016.04%20LTS-coral
 [gcc]: https://img.shields.io/badge/GCC%20version-5.4.0-blue
 
-![license] []
-![license-shield] []
-![plateform][]
-![distribution][]
-![gcc][]
 
 # C_Lib
 
