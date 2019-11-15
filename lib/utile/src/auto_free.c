@@ -26,7 +26,7 @@ void *gc_alloc_ptr_list(size_t alloc_size)
     return (ptr + sizeof(void *));
 }
 
-void __attribute__ ((destructor)) gc_destroy_ptr_list()
+void __attribute__ ((destructor)) gc_destroy_ptr_list(void)
 {
     void *ptr_list = (*((void **)gc_get_ptr_list()));
     void *ptr;
