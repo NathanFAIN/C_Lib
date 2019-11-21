@@ -7,8 +7,6 @@
 ![plateform][]
 ![distribution][]
 ![gcc][]
-[![license-shield][]][]
-
 
 
 # C_Lib
