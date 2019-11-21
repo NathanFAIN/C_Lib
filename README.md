@@ -7,7 +7,7 @@
 ![plateform][]
 ![distribution][]
 ![gcc][]
-[![license-shield][]][license]
+[![license-shield][]][]
 
 
 
